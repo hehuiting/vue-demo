@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+
+    <div id="app2">
+        <span v-bind:title="message">
+            鼠标悬停几秒查看此处动态绑定的提示信息！
+        </span>
+    </div>
+
+    <!-- 控制切换一个元素是否显示 -->
+    <div id="app3">
+        <p v-if="seen">现在你看到我了</p>
+    </div>
+
+    <!-- v-for 指令可以绑定数组的数据来渲染一个项目列表 -->
+    <div id="app4">
+        <ol>
+            <li v-for='todo in todos'>
+                {{todo.text}}
+            </li>
+        </ol>
+    </div>
+
+    <!-- 为了让用户和你的应用进行交互，我们可以用 v-on 指令添加一个事件监听器，通过它调用在 Vue 实例中定义的方法 -->
+    <div id="app5">
+        <p>{{message}}</p>
+        <button v-on:click="reverseMessage">逆转消息</button>
+    </div>
+    
+    <div id="app6">
+        <p>{{message}}</p>
+        <input type="text" v-model="message">
+    </div>
+
+    <div id="app7">
+        <ol>
+            <!-- <todo-item 
+                v-for="item in groceryList"
+                v-bind:todo="item"
+                v-bind:key="item.id"      
+            ></todo-item> -->
+            <li v-for='item in groceryList'>
+                {{item.text}}
+            </li>
+        </ol>
+    </div>
+<script>
+var app=new Vue({
+        el:'#app',
+        data:{
+            message:'Hello Vue!'
+        }
+    });
+
+    var app2=new Vue({
+        el:'#app2',
+        data:{
+            message:'页面加载于'+new Date().toLocaleString()
+        }
+    });
+
+    var app3=new Vue({
+        el:'#app3',
+        data:{
+            seen:true
+        }
+    });
+
+    var app4=new Vue({
+        el:'#app4',
+        data:{
+            todos:[
+                {text:'学习JS'},
+                {text:'Vue'},
+                {text:'dojo'}
+            ]
+        }
+    });
+    app4.todos.push({text:'新项目'});
+
+    var app5=new Vue({
+        el:'#app5',
+        data:{
+            message:'Hello Vue.js!'
+        },
+        methods:{
+            reverseMessage:function(){
+                this.message=this.message.split('').reverse().join('')
+            }
+        }
+    });
+
+    var app6=new Vue({
+        el:'#app6',
+        data:{
+             message:'hello'
+        }
+       
+    });
+    Vue.component('todo-item', {
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>'
+})
+    var app7=new Vue({
+        el:'#app7',
+        data:{
+            groceryList:[
+                {id:0,text:'蔬菜'},
+                {id:1,text:'nailu'},
+                {id:2,text:'qit'}
+            ]
+        }
+    })
+</script>
+    
+</body>
+</html>
+
