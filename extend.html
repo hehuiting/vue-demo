@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>全局API</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+
+    <div id="mount-point"></div>
+
+    <script>
+        // 1. Vue.extend（options）,用于创建一个子类，
+        // 参数是一个包含组件选项的对象，data选项是特例，在这必须为函数
+        //创建构造器
+        var Profile=Vue.extend({
+            template:'<p>{{name}} go to {{place}} </p>',
+            data:function(){
+                return{
+                    name:'hht',
+                    place:'park'
+                }
+                
+            }
+        })
+        //创建profile实例，并挂载到一个元素上
+        new Profile().$mount('#mount-point')
+        // Vue.set('#mount-point',name,'ghkdj');
+        console.log(this.data);
+
+        // 2. Vue.set(target,propertyName/index,value)
+        // 向响应式对象中添加一个属性
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/foo">go to foo</router-link>
+        <!-- <router-link to="/bar">go to bar</router-link>
+        <router-link to="/baz">go to baz</router-link> -->
+
+        <router-view class="one" style="background-color:aqua;"></router-view></br>
+        <router-view class="two" name="a" style="background-color:red"></router-view></br>
+        <router-view class="three" name="b" style="background-color:blue"></router-view>
+
+    </div>
+
+    <script>
+        // 定义组件
+        const Foo={template:'<div>foo</div>'}
+        const Bar={template:'<div>baz</div>'}
+        const Baz={template:'<div>bar</div>'}
+        // 定义路由
+        const routes=[
+            {
+                path:'/foo',
+                components:{
+                    default:Foo,
+                    a:Bar,
+                    b:Baz
+                }
+            }
+            // {path:'/foo',component:Foo},
+            // {path:'/bar',components:{a:Bar}},
+            // {path:'/baz',components:{b:Baz}}
+        ]
+        // 实例化router
+        const router=new VueRouter({
+            routes
+        })
+        // 4.注册路由
+        // 要通过router配置参数注入路由，从而让整个应用都有路由功能
+        new Vue({
+            router
+        }).$mount('#app')
+    </script>
+</body>
+</html>

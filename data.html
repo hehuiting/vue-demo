@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <p>姓名：{{name}}</p>
+        <p>年龄：{{age}}</p>
+    </div>
+
+    <div id="app2">
+        <custom-component></custom-component>
+    </div>
+    <script>
+        var vm=new Vue({
+            el:'#app1',
+            // data() {
+            //     return {
+            //         name:'hht',
+            //         age:22
+            //     }
+            // },
+            data:{
+                name:'hht',
+                age:22
+            },
+            methods:{
+                // 若使用plus:()=>this.age++,则age不会改变，仍为22
+                plus:function(){
+                    this.age++
+                }
+            }
+        })
+        vm.plus();
+        console.log(vm.age) //23
+
+        Vue.component('custom-component',{
+            template:'<p>我是{{name}}</p>',
+            data:function(){
+                return{
+                name:'hht'
+            }}
+        })
+        new Vue({
+            el:'#app2'
+        })
+    </script>
+</body>
+</html>

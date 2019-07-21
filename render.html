@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>渲染函数</title>
+  <script src="./vue.js"></script>
+</head>
+
+<body>
+  <div></div>
+  <anchored-heading :level="1">Hello world!</anchored-heading>
+
+
+  <div id="level-demo">
+    <anchored-heading2 :level="[1]">hello hht</anchored-heading>
+  </div>
+  <script type="text/x-template" id="anchored-heading-template">
+        <h1 v-if="level === 1">
+          <slot></slot>
+        </h1>
+        <h2 v-else-if="level === 2">
+          <slot></slot>
+        </h2>
+        <h3 v-else-if="level === 3">
+          <slot></slot>
+        </h3>
+        <h4 v-else-if="level === 4">
+          <slot></slot>
+        </h4>
+        <h5 v-else-if="level === 5">
+          <slot></slot>
+        </h5>
+        <h6 v-else-if="level === 6">
+          <slot></slot>
+        </h6>
+      </script>
+  <script>
+    Vue.component('anchored-heading', {
+      template: '#anchored-heading-template',
+      props: {
+        level: {
+          type: Number,
+          required: true
+        }
+      }
+    })
+    // render 函数 跟 template 一样都是创建 html 模板的，
+    // 但是有些场景中用 template 实现起来代码冗长繁琐而且有大量重复，
+    // 这时候就可以用 render 函数。
+    Vue.component('anchored-heading2', {
+      render: function (createElement) {
+        return createElement(
+          'h' + this.level,  //标签名称
+          this.$slots.default  //子节点数组
+        )
+      },
+      props: {
+        level: {
+          type: Number,
+          required: true
+        }
+      }
+
+    })
+    new Vue({
+      el: '#level-demo'
+    })
+  </script>
+</body>
+
+</html>

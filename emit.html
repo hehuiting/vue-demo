@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <welcome-button v-on:welcome="sayHi"></welcome-button>
+    </div>
+
+    <div id="app2">
+        <advice v-on:give-advice="showAdvice"></advice>
+    </div>
+
+    <script>
+        // $emit()触发当前实例上的事件
+
+        // 1. 只配合一个事件名使用 $emit
+        Vue.component('welcome-button',{
+            template:`
+                <button v-on:click="$emit('welcome')">click me to say HI</button>
+            `
+        })
+
+        new Vue({
+            el:'#app1',
+            methods: {
+                sayHi:function(){
+                    alert('Hi')
+                }
+            },
+        })
+
+        // 2. 配合额外的参数使用 $emit
+        Vue.component('advice',{
+          
+            data:function(){
+                return{
+                    possibleAdvice:['yes','no','maybe']
+                }
+            },
+            methods:{
+                giveAdvice:function(){
+                    var randomAdviceIndex=Math.floor(Math.random()*this.possibleAdvice.length)
+                    this.$emit('give-advice',this.possibleAdvice[randomAdviceIndex])
+                }
+            },
+            template:`
+                <button v-on:click="giveAdvice">Click me for advie</button>
+            `
+        })
+        new Vue({
+            el:'#app2',
+            methods:{
+                showAdvice:function(advice){
+                    alert(advice)
+                }
+            }
+        })
+    </script>
+</body>
+</html>
+
+<!-- 需要注意的是：不同于组件和prop，
+     事件名不存在任何自动化的大小写转换，
+     触发的事件名需完全匹配监听该事件所用的名称，
+     所以一般使用bebal-case方式对事件进行命名。 -->

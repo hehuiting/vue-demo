@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>插槽</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- 1-1 默认插槽和具名插槽 -->
+    <div id="app">
+        <child-component>
+            <template slot="girl">
+                女孩：漂亮、美丽、购物、逛街
+            </template>
+            <template slot="boy">
+                男孩：帅气、才实
+            </template>
+            <div>
+                我是一类人，
+                我是默认的插槽
+            </div>
+        </child-component>
+    </div>
+
+    <!-- 2-1 作用域插槽：在组件上的属性，可以在组件元素内使用 -->
+    <div id="app2">
+        <child>
+            <template slot-scope="a">              　　　　　　
+                <!-- {"say":"你好"} -->
+                {{a}}
+            </template>
+        </child>
+    </div>
+
+    <!-- 2-2 -->
+    <div id="app3">
+        <children :lists="nameList">
+            <template v-slot="a">
+                <!-- {{a}} -->
+                <div v-if='a.bbbb.id==1'>你好：<span>{{a.bbbb.name}}</span></div>
+                <div v-else>{{a.bbbb.name}}</div>
+            </template>
+        </children>
+    </div>
+
+
+    <script>
+        // 设置了name的为具名插槽，没有名字的为默认插槽
+        Vue.component('child-component', {
+            template: `
+                        <div>
+                        <h4>这个世界不仅有男人和女人</h4>
+            
+                        <slot name="girl"></slot>
+            
+                        </br></br>
+            
+                        <slot name="boy"></slot>
+            
+                        </br></br>
+            
+                        <slot></slot>
+                        </div>
+                    `
+        })
+        let vm = new Vue({
+            el: '#app',
+            data: {
+
+            }
+        })
+
+        // 作用域插槽
+        Vue.component('child', {
+            template: `
+                <div>
+                    <slot say="你好">    </slot>
+                </div>
+            `
+        })
+        new Vue({
+            el: '#app2',
+
+        })
+
+
+        Vue.component('children', {
+            props: ['lists'],
+            template: `
+                <div>
+                    <ul>
+                        <li v-for="list in lists">
+                            <slot :bbbb="list"></slot>
+                        </li>    
+                    </ul>    
+                </div>
+            `
+        })
+        new Vue({
+            el: '#app3',
+            data: function(){
+                return{
+                nameList: [
+                    { id: 1, name: '孙悟空' },
+                    { id: 2, name: '猪八戒' },
+                    { id: 3, name: '沙和尚' },
+                    { id: 4, name: '唐僧' },
+                    { id: 5, name: '小白龙' },
+                ]
+            }
+        }
+        })
+    </script>
+</body>
+
+</html>

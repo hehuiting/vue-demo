@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+</head>
+
+<body>
+  <div id="app">
+    <h1>Hello App!</h1>
+    <p>
+      <!-- 使用 router-link 组件来导航. -->
+      <!-- 通过传入 `to` 属性指定链接. -->
+      <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+      <router-link to="/foo">Go to Foo</router-link>
+      <router-link to="/bar">Go to Bar</router-link>
+      <!-- 组件复用 -->
+      <router-link to="/User/123">to 123</router-link>
+      <router-link to="/User/456">to 456</router-link>
+      <div @click="goto">Go To Helloworld</div>
+      <button @click="back">返回</button>
+      <button @click="forward">前进</button>
+    </p>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
+
+    
+   
+  </div>
+
+  <script>
+    //  0.如果使用模块化机制编程，导入vue和vueRouter,要调用Vue.use(vueRouter)
+
+    // 1. 定义组件
+    //可以从其他文件import进来
+    const Foo = { template: '<div>foo</div>' }
+    const Bar = { template: '<div>bar</div>' }
+    //定义动态路由
+    const User = { 
+      // 通过props进行解耦
+      props:['id'],
+      // template: '<div>User{{$route.params.id}}</div>'   //未进行解耦前需要依赖route路径
+      template: '<div>User{{id}}</div>' 
+      }
+    const Hello = { template: '<div>hello hht</div>' }
+    // 2. 定义路由
+    // 每个路由应该映射一个组件。其中“component”可以是
+    // 通过Vue.extend()创建的组件构造器，
+    // 或者只是一个组件配置对象。
+    const routes = [
+      { path: '/foo', component: Foo },
+      { path: '/bar', component: Bar },
+      { path: '/User/:id', component: User ,props:true},
+      {
+        // 动态路由路径参数：以冒号开头
+        path: '/helloworld/:id',
+        component: Hello,
+        // 可以不通过this.$router获取：id，直接当做组件的props使用
+        props: true,
+        name: 'Hello'
+      }
+    ]
+
+    //  3.创建router实例，然后传routes或其他配置参数
+    const router = new VueRouter({
+      routes  //缩写，相当于routes:routes
+    })
+
+    //  4.创建和挂载根实例
+    // 要通过router配置参数注入路由，从而让整个应用都有路由功能
+    const app = new Vue({
+      router,
+      methods: {
+        goto() {
+          this.$router.push('/helloworld/123');
+        },
+        back(){
+         
+          window.history.length>1
+          ?this.$router.go(-1)//等同于history.back
+          :this.$router.push('/') 
+        },
+        forward(){
+          // router.go(1);   //等同于history.forward
+          history.forward();
+        }
+
+      },
+      mounted() {
+        console.log(this.$route.params.id);  //123
+      },
+      // 路由参数变化监听 ，这里会导致mounted生命周期钩子无法使用
+      watch: {
+        '$route'(to, from) {
+          console.log('路由参数变化');
+          console.log(window.history.length)
+        }
+      }
+    }).$mount('#app')
+
+
+  </script>
+</body>
+
+</html>

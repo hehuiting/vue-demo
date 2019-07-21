@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>钩子函数</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- <div id="app">
+         <input type="text" v-focus> 
+    </div> -->
+
+    <div id="hook-arguments-example" v-demo:foo.a.b="message"></div>
+
+    <div id="baseexample">
+        <p>Scroll doen the page</p>
+        <p v-pin:[direction]="200">Stick me 200px form the top of the page</p>
+    </div>
+
+    <script>
+        // 一个指令定义对象提供5个钩子函数，分别为
+        //  1）bind:只调用一次
+        //  2）insert:插入父节点
+        //  3）update: VNode更新时，可能发生在其子vnode更新之前
+        //  4）componentUpdated:指令所在组件的vnode和其子vnode全部更新后调用
+        //  5）unbind:只调用一次，解绑时调用
+
+
+
+        // 1-1 注册全局自定义指令
+        // Vue.directive('focus',{
+        //     inserted:function(el){
+        //         el.focus()
+        //     }
+        // })
+
+        // 1-2 注册局部指令
+        // new Vue({
+        //     el:'app',
+        //     directives:{
+        //         focus:{
+        //             inserted:function (el){
+        //                 el.focus()
+        //             }
+        //         }
+        //     }
+        // })s
+
+        // 2-1
+        Vue.directive('demo', {
+            // 钩子函数的参数包括el、binding、vnode和oldVnode，其中只有el可以操作
+            // 其他三个都是只读，不能进行修改；oldVnode是指上一个虚拟节点，仅在update和componentUpdated钩子中使用
+            bind: function (el, binding, vnode) {
+                var s = JSON.stringify
+                el.innerHTML =
+                    'name: ' + s(binding.name) + '<br>' +   //指令名称，不包括v-前缀：demo
+                    'value: ' + s(binding.value) + '<br>' +  //指令的绑定值:hello
+                    'expression: ' + s(binding.expression) + '<br>' + //字符串形式的指令表达式：message
+                    'argument: ' + s(binding.arg) + '<br>' +  //传给指令的参数，可选：foo
+                    'modifiers: ' + s(binding.modifiers) + '<br>' +  //一个包含修饰符的对象：{"a":true,"b":true}
+                    // 前面五个参数是binding包含的属性，vnode是vue编译生成的虚拟节点
+                    'vnode keys: ' + Object.keys(vnode).join(', ')
+            }
+        })
+
+        new Vue({
+            el: '#hook-arguments-example',
+            data: {
+                message: 'hello'
+            }
+        })
+
+        // 3-1 动态指令参数
+        Vue.directive('pin',{
+            bind:function(el,binding,vnode){
+                el.style.position='fixed'
+                // el.style.top=binding.value+'px'
+                var s=(binding.arg=='left'?'left':'top')
+                // s="left"
+                el.style[s]=binding.value+'px'
+            }
+        })
+        new Vue({
+            el:'#baseexample',
+            data:function(){
+                return{
+                    direction:'left'
+                }
+            }
+
+        })
+
+
+    </script>
+</body>
+
+</html>
