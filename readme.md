@@ -4,31 +4,38 @@
 该文件是初步学习Vue写的几个实例应用，主要涉及的是Vue的实例创建、文本插值、列表渲染、数据声明和方法的声明。
 ### 2.components.html
 该文件是在学习组件基础时创建的一些实例。主要涉及Vue.js的相关内容包括：通过**v-for**实现变量循环，组件的复用，通过**prop** 进行数据传递，使用**v-on**父子组件的事件监听，利用 **v-model**进行数据双向绑定等内容。
-###3.reverse-computed.htm
+
+### 3.reverse-computed.htm
+
 该实例主要是学习Vue中**computed**的使用方法
-###4.v-for.html
+
+### 4.v-for.html
+
 该实例主要是学习**v-for**标签的使用,**v-for**主要用于变量的循环。
-###5.v-html.html
+
+### 5.v-html.html
 
 该例子主要是学习**v-html**指令的使用环境，若想正确展示数据中包含元素标签或者样式，则需使用**v-html**指令。
-###6.node-modules
+
+### 6.node-modules
+
 该文件中两个js文件，主要学习的是在Vue框架下的模块的导入和导出。
 
 #更新的文件：
-###7.data.html
+### 7.data.html
 该界面中的demo主要是为了学习data和methods的用法，data分为object和function两种类型。需要注意的是当组件被定义时，data必须为函数类型，因组件很有可能被用来创建多个实例，若data仍为一个纯粹的对象，则所有实例将共享同一个数据对象。通过提供data函数，每次创建一个新的实例后，返回初始数据的一个全局数据对象。
 methods中的方法可直接通过VM实例来访问，或在指令表达式中使用。需要注意的是不能使用箭头函数来定义methods函数，否则this不会指向期望值。
-###8.directive.html
+### 8.directive.html
 该练习主要是学习自定义指令通过Vue.direvtive的注册方法，包括全局注册和局部注册的方法，同时了解钩子函数的一些参数及用法。钩子函数的参数包括el、binding、vnode和oldVnode，其中只有el可以操作，其他三个都是只读，不能进行修改；oldVnode是指上一个虚拟节点，仅在update和componentUpdated钩子中使用。
-###9.$emit.html
+### 9.$emit.html
 该练习主要是学习$emit方法的使用，包括只配合一个事件名使用 $emit和配合额外的参数使用 $emit。
-###10.extend.html
+### 10.extend.html
 该练习学习的是利用一个全局API：Vue.extend创建子组件并挂载到父元素上，需要注意的是Vue.extend（options）中的options参数是一个包含组件选项的对象，data选项是特例，在这必须为函数。
-###11.render.html
+### 11.render.html
 render 函数即渲染函数，它是个函数，它的参数也是个函数——即 createElement 。render函数跟template一样都是创建 html 模板的，但是有些场景中用 template 实现起来代码冗长繁琐而且有大量重复，这时候就可以用 render 函数。
-###12.slot.html
+### 12.slot.html
 该练习主要是学习插槽（slot）的概念和使用方法。没有插槽的情况下，在组件标签内的一些内容不起作用，当在组件声明了slot元素之后，这些内容才能正常显示。可以分为一般插槽、具名插槽（给插槽命名）和作用域插槽（使用v-slot）。
-###13.vue-router.html和router-view.html
+### 13.vue-router.html和router-view.html
 这两个练习主要是学习在vue组件中路由的构建方法，一般分为四个步骤：1）定义组件；2）定义路由；3）创建router实例；4）注册路由（创建和挂载根实例）
 ********
 
